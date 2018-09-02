@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project.front_end;
+package project.frontend;
 
 /**
  *
@@ -32,15 +32,41 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuOpciones = new javax.swing.JMenu();
+        jMenuItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Code 'n Bugs");
 
-        jMenu1.setText("File");
+        jMenu1.setText("Proyecto");
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Caso");
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Etapa");
+        jMenuBar1.add(jMenu3);
+
+        jMenu4.setText("Usuario");
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Reportes");
+        jMenuBar1.add(jMenu5);
+
+        jMenuOpciones.setText("Opciones");
+
+        jMenuItemSalir.setText("Salir");
+        jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSalirActionPerformed(evt);
+            }
+        });
+        jMenuOpciones.add(jMenuItemSalir);
+
+        jMenuBar1.add(jMenuOpciones);
 
         setJMenuBar(jMenuBar1);
 
@@ -57,6 +83,10 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -97,6 +127,11 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     private javax.swing.JDesktopPane PrincipalDesktop;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenu jMenuOpciones;
     // End of variables declaration//GEN-END:variables
 }
