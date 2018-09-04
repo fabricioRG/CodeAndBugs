@@ -85,7 +85,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     /**

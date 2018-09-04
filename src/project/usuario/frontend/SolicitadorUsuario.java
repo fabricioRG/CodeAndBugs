@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package project.usuario.frontend;
 
 import javax.swing.JOptionPane;
+import project.usuario.backend.ManejadorSolicitadorUsuario;
 
 /**
  *
@@ -15,6 +11,7 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
 
     private boolean estado;
     private int areaTrabajo = 0;
+    ManejadorSolicitadorUsuario msu;
 
     /**
      * Creates new form SolicitadorUsuario
@@ -38,12 +35,12 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
-        nombreUsuarioField = new javax.swing.JTextField();
-        contraseñaUsuarioField = new javax.swing.JPasswordField();
+        fieldPassword = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         ingresarUsuario = new javax.swing.JButton();
         salirButton = new javax.swing.JButton();
+        fieldNombre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -54,15 +51,9 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(1, 1, 1));
         jLabel2.setText("Por favor, ingrese sus datos de usuario en los siguientes campos");
 
-        nombreUsuarioField.addActionListener(new java.awt.event.ActionListener() {
+        fieldPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreUsuarioFieldActionPerformed(evt);
-            }
-        });
-
-        contraseñaUsuarioField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contraseñaUsuarioFieldActionPerformed(evt);
+                fieldPasswordActionPerformed(evt);
             }
         });
 
@@ -110,9 +101,10 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(contraseñaUsuarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombreUsuarioField, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLabel2)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(fieldNombre, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(fieldPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,11 +127,11 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreUsuarioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(fieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(contraseñaUsuarioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addComponent(ingresarUsuario)
@@ -151,18 +143,21 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nombreUsuarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreUsuarioFieldActionPerformed
-    }//GEN-LAST:event_nombreUsuarioFieldActionPerformed
-
-    private void contraseñaUsuarioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraseñaUsuarioFieldActionPerformed
-    }//GEN-LAST:event_contraseñaUsuarioFieldActionPerformed
+    private void fieldPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fieldPasswordActionPerformed
+    }//GEN-LAST:event_fieldPasswordActionPerformed
 
     /**
      * Metodo que permite verificar si el usuario existe, asi como verificar si la contraseña coincide
      * @param evt 
      */
     private void ingresarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarUsuarioActionPerformed
-        
+        msu = new ManejadorSolicitadorUsuario();
+        try {
+            msu.showCodeAndBugsDesktop(fieldNombre.getText(), fieldPassword.getPassword());
+            this.dispose();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_ingresarUsuarioActionPerformed
 
     /**
@@ -170,7 +165,7 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
      * @param evt 
      */
     private void salirButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salirButtonActionPerformed
-        int accion = JOptionPane.showConfirmDialog(rootPane, "Deseas salir de \"Mi Muebleria\"", "Salir", JOptionPane.YES_NO_OPTION);
+        int accion = JOptionPane.showConfirmDialog(rootPane, "Deseas salir de \"Code 'n Bugs\"", "Salir", JOptionPane.YES_NO_OPTION);
         if (accion == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -227,14 +222,14 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField contraseñaUsuarioField;
+    private javax.swing.JTextField fieldNombre;
+    private javax.swing.JPasswordField fieldPassword;
     private javax.swing.JButton ingresarUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField nombreUsuarioField;
     private javax.swing.JButton salirButton;
     // End of variables declaration//GEN-END:variables
 }

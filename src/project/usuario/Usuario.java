@@ -6,13 +6,13 @@ package project.usuario;
  */
 public class Usuario {
     
-    private char[] DPI = new char[8];
+    private int DPI;
     private String nombre;
     private String usuario;
     private String password;
     char tipo;
 
-    public Usuario(char[] DPI, String nombre, String usuario, String password, char tipo) {
+    public Usuario(int DPI, String nombre, String usuario, String password, char tipo) {
         this.DPI = DPI;
         this.nombre = nombre;
         this.usuario = usuario;
@@ -20,11 +20,11 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    public char[] getDPI() {
+    public int getDPI() {
         return DPI;
     }
 
-    public void setDPI(char[] DPI) {
+    public void setDPI(int DPI) {
         this.DPI = DPI;
     }
 
@@ -59,7 +59,5 @@ public class Usuario {
     public void setTipo(char tipo) {
         this.tipo = tipo;
     }
-    
-    
     
 }
