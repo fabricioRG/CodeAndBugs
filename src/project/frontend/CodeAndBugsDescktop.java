@@ -5,18 +5,28 @@
  */
 package project.frontend;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.text.ParseException;
+import javax.swing.JOptionPane;
+import project.backend.ManejadorDesktop;
+import project.usuario.frontend.CreadorUsuario;
+
 /**
  *
  * @author fabricio
  */
 public class CodeAndBugsDescktop extends javax.swing.JFrame {
 
+    ManejadorDesktop md = null;
     /**
      * Creates new form CodeAndBugsDescktop
      */
-    public CodeAndBugsDescktop() {
+    public CodeAndBugsDescktop(int tipo, String nombreUsuario) {
         initComponents();
         this.setLocationRelativeTo(null);
+        md = new ManejadorDesktop();
+        modificarItems(tipo, nombreUsuario);
     }
 
     /**
@@ -29,32 +39,60 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     private void initComponents() {
 
         PrincipalDesktop = new javax.swing.JDesktopPane();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jPanel1 = new javax.swing.JPanel();
+        labelInformacion = new javax.swing.JLabel();
+        menuBar = new javax.swing.JMenuBar();
+        jMenuAdminSistema = new javax.swing.JMenu();
+        jMenuItemCrearUsuario = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Code 'n Bugs");
 
-        jMenu1.setText("Proyecto");
-        jMenuBar1.add(jMenu1);
+        PrincipalDesktop.setBackground(new java.awt.Color(254, 254, 254));
 
-        jMenu2.setText("Caso");
-        jMenuBar1.add(jMenu2);
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
 
-        jMenu3.setText("Etapa");
-        jMenuBar1.add(jMenu3);
+        labelInformacion.setBackground(new java.awt.Color(254, 254, 254));
+        labelInformacion.setFont(new java.awt.Font("Caviar Dreams", 1, 14)); // NOI18N
+        labelInformacion.setText(" ");
 
-        jMenu4.setText("Usuario");
-        jMenuBar1.add(jMenu4);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(labelInformacion, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(labelInformacion)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
-        jMenu5.setText("Reportes");
-        jMenuBar1.add(jMenu5);
+        jMenuAdminSistema.setText("Admin. Sistema");
+
+        jMenuItemCrearUsuario.setText("Crear/Registrar usuario");
+        jMenuItemCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCrearUsuarioActionPerformed(evt);
+            }
+        });
+        jMenuAdminSistema.add(jMenuItemCrearUsuario);
+
+        menuBar.add(jMenuAdminSistema);
+
+        jMenu2.setText("Admin. Proyecto");
+        menuBar.add(jMenu2);
+
+        jMenu3.setText("Desarrollador");
+        menuBar.add(jMenu3);
 
         jMenuOpciones.setText("Opciones");
 
@@ -66,19 +104,26 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         });
         jMenuOpciones.add(jMenuItemSalir);
 
-        jMenuBar1.add(jMenuOpciones);
+        menuBar.add(jMenuOpciones);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 602, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -88,50 +133,40 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
+    private void jMenuItemCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearUsuarioActionPerformed
+        CreadorUsuario cu = new CreadorUsuario();
+        PrincipalDesktop.add(cu);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = cu.getSize();
+        cu.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        cu.show();
+    }//GEN-LAST:event_jMenuItemCrearUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CodeAndBugsDescktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CodeAndBugsDescktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CodeAndBugsDescktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CodeAndBugsDescktop.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
+    private void modificarItems(int tipo, String nombreUsuario){
+        Color color = null;
+        String tipoUsuario = " ";
+        if(tipo == 1){
+            color = new Color(173, 216, 230);
+            tipoUsuario = "Administrador de Sistema";
         }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CodeAndBugsDescktop().setVisible(true);
-            }
-        });
+        menuBar.setBackground(color);
+        labelInformacion.setText(nombreUsuario + " / " + tipoUsuario);
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PrincipalDesktop;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenu jMenuAdminSistema;
+    private javax.swing.JMenuItem jMenuItemCrearUsuario;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenu jMenuOpciones;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel labelInformacion;
+    private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 }

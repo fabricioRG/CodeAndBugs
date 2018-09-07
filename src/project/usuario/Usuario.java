@@ -10,9 +10,9 @@ public class Usuario {
     private String nombre;
     private String usuario;
     private String password;
-    char tipo;
+    byte tipo;
 
-    public Usuario(int DPI, String nombre, String usuario, String password, char tipo) {
+    public Usuario(int DPI, String nombre, String usuario, String password, byte tipo) {
         this.DPI = DPI;
         this.nombre = nombre;
         this.usuario = usuario;
@@ -52,11 +52,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public char getTipo() {
+    public byte getTipo() {
         return tipo;
     }
 
-    public void setTipo(char tipo) {
+    public void setTipo(byte tipo) {
         this.tipo = tipo;
     }
     
