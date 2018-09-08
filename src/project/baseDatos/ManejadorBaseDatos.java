@@ -1,13 +1,11 @@
 package project.baseDatos;
 
+import codeandbugs01.BaseDatos;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import project.usuario.Usuario;
 
 /**
  *
@@ -15,52 +13,53 @@ import java.util.logging.Logger;
  */
 public class ManejadorBaseDatos {
 
-    private static final String urlBasica = "jdbc:mysql://localhost/PROYECTO1";
-    Connection connection = null;
-    Statement declaracion = null;
-    
-    public ManejadorBaseDatos() {
+    private Connection connection = null;
+    private Statement declaracion = null;
+    private PreparedStatement sentencia = null;
+    private BaseDatos DB = null;
+
+    public ManejadorBaseDatos(BaseDatos DB) {
+        this.DB = DB;
+        connection = DB.getConection();
+        declaracion = DB.getStatement();
+    }
+
+    public Usuario getUsuario(String datoUsuario, String consulta) {
+        Usuario usr = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-
-            String usuario = "root";
-            String password = "ex=d/dx=ex";
-            Properties propiedades = new Properties();
-            propiedades.setProperty("user", usuario);
-            propiedades.setProperty("password", password);
-
-            connection = DriverManager.getConnection(urlBasica, propiedades);
             declaracion = connection.createStatement();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void showUsuario() {
-        try {
-
-            ResultSet resultado = declaracion.executeQuery("SELECT DPI, Nombre FROM USUARIO;");
-
-            int numeroFila = 1;
-            System.out.println("Datos:");
-            while (resultado.next()) {
-                System.out.println("Fila " + numeroFila + " - " + "DPI: " + resultado.getString("DPI") + " | Nombre: " + resultado.getString("Nombre"));
-                numeroFila++;
+            sentencia = connection.prepareStatement(consulta);
+            sentencia.setString(1, datoUsuario);
+            ResultSet resultado = sentencia.executeQuery();
+            if (resultado.next()) {
+                int DPI = resultado.getInt("DPI");
+                String nombre = resultado.getString("Nombre");
+                String apellido = resultado.getString("Apellido");
+                byte tipo = resultado.getByte("Tipo");
+                String usuario = resultado.getString("Nombre_Usuario");
+                String password = resultado.getString("Password");
+                usr = new Usuario(DPI, nombre, apellido, usuario, password, tipo);
             }
-
         } catch (Exception e) {
-            System.out.println("error");
+            usr = null;
             e.printStackTrace(System.out);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ManejadorBaseDatos.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
-
+        return usr;
     }
-
+    
+    public void setUsuario(String accion, Usuario usr){
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(accion);
+            sentencia.setInt(1, usr.getDPI());
+            sentencia.setString(2, usr.getNombre());
+            sentencia.setString(3, usr.getApellido());
+            sentencia.setByte(4, usr.getTipo());
+            sentencia.setString(5, usr.getUsuario());
+            sentencia.setString(6, usr.getPassword());
+            sentencia.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
 }

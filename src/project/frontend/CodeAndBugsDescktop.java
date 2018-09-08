@@ -5,12 +5,13 @@
  */
 package project.frontend;
 
+import codeandbugs01.BaseDatos;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import project.backend.ManejadorDesktop;
-import project.usuario.frontend.CreadorUsuario;
+import project.usuario.frontend.*;
 
 /**
  *
@@ -19,14 +20,16 @@ import project.usuario.frontend.CreadorUsuario;
 public class CodeAndBugsDescktop extends javax.swing.JFrame {
 
     ManejadorDesktop md = null;
+    private BaseDatos DB = null;
     /**
      * Creates new form CodeAndBugsDescktop
      */
-    public CodeAndBugsDescktop(int tipo, String nombreUsuario) {
+    public CodeAndBugsDescktop(int tipo, String nombreUsuario, BaseDatos DB) {
         initComponents();
         this.setLocationRelativeTo(null);
         md = new ManejadorDesktop();
         modificarItems(tipo, nombreUsuario);
+        this.DB = DB;
     }
 
     /**
@@ -47,6 +50,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuOpciones = new javax.swing.JMenu();
+        jMenuItemCambiarUsuario = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,7 +80,11 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        menuBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        jMenuAdminSistema.setForeground(new java.awt.Color(254, 254, 254));
         jMenuAdminSistema.setText("Admin. Sistema");
+        jMenuAdminSistema.setEnabled(false);
 
         jMenuItemCrearUsuario.setText("Crear/Registrar usuario");
         jMenuItemCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -88,13 +96,26 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
 
         menuBar.add(jMenuAdminSistema);
 
+        jMenu2.setForeground(new java.awt.Color(254, 254, 254));
         jMenu2.setText("Admin. Proyecto");
+        jMenu2.setEnabled(false);
         menuBar.add(jMenu2);
 
+        jMenu3.setForeground(new java.awt.Color(254, 254, 254));
         jMenu3.setText("Desarrollador");
+        jMenu3.setEnabled(false);
         menuBar.add(jMenu3);
 
+        jMenuOpciones.setForeground(new java.awt.Color(254, 254, 254));
         jMenuOpciones.setText("Opciones");
+
+        jMenuItemCambiarUsuario.setText("Cambiar de Usuario");
+        jMenuItemCambiarUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCambiarUsuarioActionPerformed(evt);
+            }
+        });
+        jMenuOpciones.add(jMenuItemCambiarUsuario);
 
         jMenuItemSalir.setText("Salir");
         jMenuItemSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -112,9 +133,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 1037, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -134,13 +153,19 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearUsuarioActionPerformed
-        CreadorUsuario cu = new CreadorUsuario();
+        CreadorUsuario cu = new CreadorUsuario(this.DB);
         PrincipalDesktop.add(cu);
         Dimension desktopSize = PrincipalDesktop.getSize();
         Dimension FrameSize = cu.getSize();
         cu.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
         cu.show();
     }//GEN-LAST:event_jMenuItemCrearUsuarioActionPerformed
+
+    private void jMenuItemCambiarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCambiarUsuarioActionPerformed
+        SolicitadorUsuario su = new SolicitadorUsuario(this, rootPaneCheckingEnabled, DB);
+        this.dispose();
+        su.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCambiarUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -150,8 +175,9 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         Color color = null;
         String tipoUsuario = " ";
         if(tipo == 1){
-            color = new Color(173, 216, 230);
+            color = new Color(246,145,1);
             tipoUsuario = "Administrador de Sistema";
+            jMenuAdminSistema.setEnabled(true);
         }
         menuBar.setBackground(color);
         labelInformacion.setText(nombreUsuario + " / " + tipoUsuario);
@@ -162,6 +188,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenuAdminSistema;
+    private javax.swing.JMenuItem jMenuItemCambiarUsuario;
     private javax.swing.JMenuItem jMenuItemCrearUsuario;
     private javax.swing.JMenuItem jMenuItemSalir;
     private javax.swing.JMenu jMenuOpciones;

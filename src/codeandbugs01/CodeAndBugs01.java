@@ -11,7 +11,9 @@ public class CodeAndBugs01 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SolicitadorUsuario su = new SolicitadorUsuario(null, true);
+        BaseDatos BD = new BaseDatos();
+        BD.initConection();
+        SolicitadorUsuario su = new SolicitadorUsuario(null, true, BD);
         su.setVisible(true);
     }
     

@@ -1,5 +1,6 @@
 package project.usuario.frontend;
 
+import codeandbugs01.BaseDatos;
 import javax.swing.JOptionPane;
 import project.usuario.backend.ManejadorFrontEndUsuario;
 
@@ -11,15 +12,17 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
 
     private boolean estado;
     private int areaTrabajo = 0;
+    private BaseDatos DB = null;
 
     /**
      * Creates new form SolicitadorUsuario
      */
-    public SolicitadorUsuario(java.awt.Frame parent, boolean modal) {
+    public SolicitadorUsuario(java.awt.Frame parent, boolean modal, BaseDatos DB) {
         super(parent, modal);
         initComponents();
         this.setTitle("Datos de usuario");
         this.setLocationRelativeTo(this);
+        this.DB = DB;
     }
 
     /**
@@ -167,9 +170,9 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
      * @param evt 
      */
     private void ingresarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarUsuarioActionPerformed
-            ManejadorFrontEndUsuario msu = new ManejadorFrontEndUsuario();
+            ManejadorFrontEndUsuario msu = new ManejadorFrontEndUsuario(this.DB);
         try {
-            msu.showCodeAndBugsDesktop(fieldNombre.getText(), fieldPassword.getPassword());
+            msu.showCodeAndBugsDesktop(fieldNombre.getText(), fieldPassword.getPassword(), this.DB);
             this.dispose();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
