@@ -1,6 +1,7 @@
 package project.usuario;
 
 import codeandbugs01.BaseDatos;
+import java.util.List;
 import javax.swing.JOptionPane;
 import project.baseDatos.ManejadorBaseDatos;
 
@@ -11,27 +12,27 @@ import project.baseDatos.ManejadorBaseDatos;
 public class ManejadorUsuario {
 
     private ManejadorBaseDatos DBMS = null;
-    static final String NO_VALIDO = "\t\tAccion no valida\n";
     private BaseDatos DB = null;
+    static final String NO_VALIDO = "\t\tAccion no valida\n";
     
     public ManejadorUsuario(BaseDatos DB) {
         this.DB = DB;
         this.DBMS = new ManejadorBaseDatos(this.DB);
     }
 
-    public Usuario getUsuarioByNombreUsuario(String nombreUsuario) {
+    //Metodo que devuelve un Objeto Usuario, recibiendo como parametro el nombre de usuario
+    public List getUsuarioByNombreUsuario(String nombreUsuario) {
         String consulta = "SELECT * FROM USUARIO WHERE Nombre_Usuario = ?";
-        Usuario usr = this.DBMS.getUsuario(nombreUsuario, consulta);
-        return usr;
+        return this.DBMS.getUsuario(nombreUsuario, consulta, 1);
     }
-    
-    public Usuario getUsuarioByDPI(String DPIUsuario){
+    //Metodo que devuelve un Objeto Usuario, recibiendo como parametro el DPI del usuario
+    public List getUsuarioByDPI(String DPIUsuario){
         String consulta = "SELECT * FROM USUARIO WHERE DPI = ?";
-        Usuario usr = this.DBMS.getUsuario(DPIUsuario, consulta);
-        return usr;
+        return this.DBMS.getUsuario(DPIUsuario, consulta, 1);
     }
 
-    public String setUsuarioInDatabase(String dpi, String name, String lastName, String user, String pass, String type) throws Exception{
+    //
+    public void setUsuarioInDatabase(String dpi, String name, String lastName, String user, String pass, String type) throws Exception{
         if (name.isEmpty()){
             throw new Exception(NO_VALIDO + "\"Nombre\" vacio, intentelo de nuevo.");
         } else if (name.length() > 20){
@@ -58,8 +59,6 @@ public class ManejadorUsuario {
             String accion = "INSERT INTO USUARIO(DPI, NOMBRE, APELLIDO, TIPO, NOMBRE_USUARIO, PASSWORD) VALUES (?,?,?,?,?,?)";
             Usuario usr = new Usuario(Integer.parseInt(dpi), name, lastName, user, pass, Byte.parseByte(Character.toString(type.charAt(0))));
             DBMS.setUsuario(accion, usr);
-            return ("Se ha creado exitosamente el usuario \"" + usr.getUsuario() + "\" en el sistema.");
-//            System.out.println(usr.getDPI() + " / " + usr.getNombre() + " / " + usr.getApellido() + " / " + usr.getUsuario() + " / " + usr.getPassword() + " / " + usr.getTipo());
         }
     }
     

@@ -11,6 +11,10 @@ import java.awt.Dimension;
 import java.text.ParseException;
 import javax.swing.JOptionPane;
 import project.backend.ManejadorDesktop;
+import project.caso.frontend.CreadorTipoCaso;
+import project.caso.frontend.RegistradorCaso;
+import project.proyecto.frontend.CreadorProyecto;
+import project.proyecto.frontend.ModificadorProyecto;
 import project.usuario.frontend.*;
 
 /**
@@ -47,8 +51,12 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         jMenuAdminSistema = new javax.swing.JMenu();
         jMenuItemCrearUsuario = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        jMenuItemCrearProyecto = new javax.swing.JMenuItem();
+        jMenuItemTipoCaso = new javax.swing.JMenuItem();
+        jMenuAdminProy = new javax.swing.JMenu();
+        jMenuItemRegCaso = new javax.swing.JMenuItem();
+        jMenuDesarr = new javax.swing.JMenu();
+        jMenuItemModificarProyecto = new javax.swing.JMenuItem();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemCambiarUsuario = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -86,7 +94,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenuAdminSistema.setText("Admin. Sistema");
         jMenuAdminSistema.setEnabled(false);
 
-        jMenuItemCrearUsuario.setText("Crear/Registrar usuario");
+        jMenuItemCrearUsuario.setText("Crear/Registrar Usuario");
         jMenuItemCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemCrearUsuarioActionPerformed(evt);
@@ -94,17 +102,51 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         });
         jMenuAdminSistema.add(jMenuItemCrearUsuario);
 
+        jMenuItemCrearProyecto.setText("Crear/Registrar Proyecto");
+        jMenuItemCrearProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCrearProyectoActionPerformed(evt);
+            }
+        });
+        jMenuAdminSistema.add(jMenuItemCrearProyecto);
+
+        jMenuItemTipoCaso.setText("Crear/Registrar Tipo Caso");
+        jMenuItemTipoCaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemTipoCasoActionPerformed(evt);
+            }
+        });
+        jMenuAdminSistema.add(jMenuItemTipoCaso);
+
         menuBar.add(jMenuAdminSistema);
 
-        jMenu2.setForeground(new java.awt.Color(254, 254, 254));
-        jMenu2.setText("Admin. Proyecto");
-        jMenu2.setEnabled(false);
-        menuBar.add(jMenu2);
+        jMenuAdminProy.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuAdminProy.setText("Admin. Proyecto");
+        jMenuAdminProy.setEnabled(false);
 
-        jMenu3.setForeground(new java.awt.Color(254, 254, 254));
-        jMenu3.setText("Desarrollador");
-        jMenu3.setEnabled(false);
-        menuBar.add(jMenu3);
+        jMenuItemRegCaso.setText("Registrar caso");
+        jMenuItemRegCaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRegCasoActionPerformed(evt);
+            }
+        });
+        jMenuAdminProy.add(jMenuItemRegCaso);
+
+        menuBar.add(jMenuAdminProy);
+
+        jMenuDesarr.setForeground(new java.awt.Color(254, 254, 254));
+        jMenuDesarr.setText("Desarrollador");
+        jMenuDesarr.setEnabled(false);
+
+        jMenuItemModificarProyecto.setText("Modificar Proyecto");
+        jMenuItemModificarProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemModificarProyectoActionPerformed(evt);
+            }
+        });
+        jMenuDesarr.add(jMenuItemModificarProyecto);
+
+        menuBar.add(jMenuDesarr);
 
         jMenuOpciones.setForeground(new java.awt.Color(254, 254, 254));
         jMenuOpciones.setText("Opciones");
@@ -141,8 +183,8 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(PrincipalDesktop, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -167,6 +209,42 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         su.setVisible(true);
     }//GEN-LAST:event_jMenuItemCambiarUsuarioActionPerformed
 
+    private void jMenuItemCrearProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCrearProyectoActionPerformed
+        CreadorProyecto cp = new CreadorProyecto(this.DB);
+        PrincipalDesktop.add(cp);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = cp.getSize();
+        cp.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        cp.show();
+    }//GEN-LAST:event_jMenuItemCrearProyectoActionPerformed
+
+    private void jMenuItemTipoCasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemTipoCasoActionPerformed
+        CreadorTipoCaso ctc = new CreadorTipoCaso(this.DB);
+        PrincipalDesktop.add(ctc);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = ctc.getSize();
+        ctc.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        ctc.show();
+    }//GEN-LAST:event_jMenuItemTipoCasoActionPerformed
+
+    private void jMenuItemModificarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModificarProyectoActionPerformed
+        ModificadorProyecto mp = new ModificadorProyecto(this.DB);
+        PrincipalDesktop.add(mp);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = mp.getSize();
+        mp.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        mp.show();
+    }//GEN-LAST:event_jMenuItemModificarProyectoActionPerformed
+
+    private void jMenuItemRegCasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegCasoActionPerformed
+        RegistradorCaso rc = new RegistradorCaso(this.DB);
+        PrincipalDesktop.add(rc);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = rc.getSize();
+        rc.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        rc.show();
+    }//GEN-LAST:event_jMenuItemRegCasoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -178,6 +256,10 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
             color = new Color(246,145,1);
             tipoUsuario = "Administrador de Sistema";
             jMenuAdminSistema.setEnabled(true);
+        } else if(tipo == 2){
+            color = new Color(70, 130, 180);
+            tipoUsuario = "Administrador de Proyecto";
+            jMenuAdminProy.setEnabled(true);
         }
         menuBar.setBackground(color);
         labelInformacion.setText(nombreUsuario + " / " + tipoUsuario);
@@ -185,12 +267,16 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PrincipalDesktop;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenuAdminProy;
     private javax.swing.JMenu jMenuAdminSistema;
+    private javax.swing.JMenu jMenuDesarr;
     private javax.swing.JMenuItem jMenuItemCambiarUsuario;
+    private javax.swing.JMenuItem jMenuItemCrearProyecto;
     private javax.swing.JMenuItem jMenuItemCrearUsuario;
+    private javax.swing.JMenuItem jMenuItemModificarProyecto;
+    private javax.swing.JMenuItem jMenuItemRegCaso;
     private javax.swing.JMenuItem jMenuItemSalir;
+    private javax.swing.JMenuItem jMenuItemTipoCaso;
     private javax.swing.JMenu jMenuOpciones;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel labelInformacion;

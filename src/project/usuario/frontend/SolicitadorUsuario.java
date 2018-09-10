@@ -172,10 +172,10 @@ public class SolicitadorUsuario extends javax.swing.JDialog {
     private void ingresarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarUsuarioActionPerformed
             ManejadorFrontEndUsuario msu = new ManejadorFrontEndUsuario(this.DB);
         try {
-            msu.showCodeAndBugsDesktop(fieldNombre.getText(), fieldPassword.getPassword(), this.DB);
+            msu.showCodeAndBugsDesktop(fieldNombre.getText().trim(), fieldPassword.getPassword(), this.DB);
             this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion1", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_ingresarUsuarioActionPerformed
 

@@ -23,20 +23,22 @@ public class ManejadorFrontEndUsuario {
 
     public void showCodeAndBugsDesktop(String nombre, char[] password, BaseDatos DB) throws Exception {
         String passwordUsuario = new String(password);
-        Usuario usr = mu.getUsuarioByNombreUsuario(nombre);
-        if (nombre.replaceAll(" ", "").isEmpty()) {
+        Usuario usr = null;
+        if (nombre.isEmpty()) {
             throw new Exception("No se ha ingresado un \"nombre de usuario\" valido");
         } else if (passwordUsuario.replaceAll(" ", "").isEmpty()) {
             throw new Exception("No se ha ingresado una \"contraseña\" valida");
-        } else if (nombre.length() > 10 || passwordUsuario.length() > 10) {
-            throw new Exception("Se ha excedido el numero maximo de caracteres validos");
-        } else if(usr == null){
-            throw new Exception("El usuario no existe");
-        } else if(!(usr.getPassword().equals(passwordUsuario))){
+        }
+        if(mu.getUsuarioByNombreUsuario(nombre)!=null){
+            usr = (Usuario)mu.getUsuarioByNombreUsuario(nombre).get(0);
+            if(!(usr.getPassword().equals(passwordUsuario))){
             throw new Exception("La contraseña es incorrecta");
-        } else {
+            } else {
             cbd = new CodeAndBugsDescktop(usr.getTipo(), usr.getUsuario(), DB);
             cbd.setVisible(true);
+            }
+        } else {
+            throw new Exception("El usuario no existe");
         }
     }
 }
