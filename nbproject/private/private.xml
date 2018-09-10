@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/baseDatos/ManejadorDatosUsuario.java</file>
-            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/usuario/ManejadorUsuario.java</file>
-            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/usuario/backend/ManejadorFrontEndUsuario.java</file>
+            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/baseDatos/ManejadorBaseDatos.java</file>
+            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/etapa/backend/ManejadorEtapa.java</file>
             <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/frontend/CodeAndBugsDescktop.java</file>
-            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/usuario/frontend/SolicitadorUsuario.java</file>
-            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/usuario/frontend/CreadorUsuario.java</file>
+            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/caso/backend/ManejadorCaso.java</file>
+            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/etapa/frontend/RegistradorEtapa.java</file>
+            <file>file:/home/fabricio/NetBeansProjects/CodeAndBugs01/src/project/etapa/backend/AsignadorDesarrEtapa.java</file>
         </group>
     </open-files>
 </project-private>

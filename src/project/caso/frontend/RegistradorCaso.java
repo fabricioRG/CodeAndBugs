@@ -6,6 +6,16 @@
 package project.caso.frontend;
 
 import codeandbugs01.BaseDatos;
+import java.text.ParseException;
+import java.time.format.DateTimeParseException;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import project.caso.backend.ManejadorCaso;
+import project.caso.backend.TipoCaso;
+import project.proyecto.backend.ManejadorProyecto;
+import project.proyecto.backend.Proyecto;
+import project.usuario.Usuario;
 
 /**
  *
@@ -14,10 +24,17 @@ import codeandbugs01.BaseDatos;
 public class RegistradorCaso extends javax.swing.JInternalFrame {
 
     private BaseDatos DB = null;
-    
-    public RegistradorCaso(BaseDatos DB) {
-        initComponents();
+    private List<TipoCaso> listaTipos = null;
+    private List<Proyecto> listaIDProy = null;
+    private Usuario usuario = null;
+
+    public RegistradorCaso(BaseDatos DB, Usuario usr) {
         this.DB = DB;
+        this.listaTipos = new LinkedList<>();
+        this.listaIDProy = new LinkedList<>();
+        this.usuario = usr;
+        initComponents();
+        actualizarListas();
     }
 
     /**
@@ -28,13 +45,24 @@ public class RegistradorCaso extends javax.swing.JInternalFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
+        formattedTextFieldFechaIni = new javax.swing.JFormattedTextField();
+        jComboBoxTipos = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxIDProy = new javax.swing.JComboBox<>();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        formattedTextFieldFechaLim = new javax.swing.JFormattedTextField();
+        buttonRegistrar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 99, 71));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setClosable(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 99, 71));
 
@@ -45,17 +73,97 @@ public class RegistradorCaso extends javax.swing.JInternalFrame {
         jSeparator1.setForeground(new java.awt.Color(254, 254, 254));
         jSeparator1.setPreferredSize(new java.awt.Dimension(50, 5));
 
+        jLabel2.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel2.setText("Tipo de Caso*:");
+
+        formattedTextFieldFechaIni.setBackground(new java.awt.Color(254, 254, 254));
+        formattedTextFieldFechaIni.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        formattedTextFieldFechaIni.setForeground(new java.awt.Color(237, 71, 71));
+        try {
+            formattedTextFieldFechaIni.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        formattedTextFieldFechaIni.setCaretColor(new java.awt.Color(237, 71, 71));
+
+        jComboBoxTipos.setBackground(new java.awt.Color(254, 254, 254));
+        jComboBoxTipos.setForeground(new java.awt.Color(237, 71, 71));
+
+        org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaTiposObserv}");
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jComboBoxTipos);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        jLabel3.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel3.setText("ID Proyecto*:");
+
+        jComboBoxIDProy.setBackground(new java.awt.Color(254, 254, 254));
+        jComboBoxIDProy.setForeground(new java.awt.Color(237, 71, 71));
+
+        jLabel4.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel4.setText("Fecha de Inicio*:");
+
+        jLabel5.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel5.setText("Fecha Limite*:");
+
+        formattedTextFieldFechaLim.setBackground(new java.awt.Color(254, 254, 254));
+        formattedTextFieldFechaLim.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        formattedTextFieldFechaLim.setForeground(new java.awt.Color(237, 71, 71));
+        try {
+            formattedTextFieldFechaLim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("####-##-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        formattedTextFieldFechaLim.setCaretColor(new java.awt.Color(237, 71, 71));
+
+        buttonRegistrar.setBackground(new java.awt.Color(70, 130, 180));
+        buttonRegistrar.setFont(new java.awt.Font("Caviar Dreams", 0, 24)); // NOI18N
+        buttonRegistrar.setForeground(new java.awt.Color(254, 254, 254));
+        buttonRegistrar.setText("Registrar");
+        buttonRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonRegistrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(144, 144, 144)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(144, 144, 144)
-                .addComponent(jLabel1)
+                .addGap(47, 47, 47)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(37, 37, 37)
+                        .addComponent(formattedTextFieldFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBoxIDProy, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(formattedTextFieldFechaLim, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(62, 62, 62))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(128, 128, 128)
+                .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -65,27 +173,96 @@ public class RegistradorCaso extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBoxIDProy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(formattedTextFieldFechaLim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formattedTextFieldFechaIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(buttonRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        bindingGroup.bind();
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void buttonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRegistrarActionPerformed
+        ManejadorCaso mc = new ManejadorCaso(this.DB);
+        try {
+            mc.setCaso(formattedTextFieldFechaIni.getText(), formattedTextFieldFechaLim.getText(), (String) jComboBoxTipos.getSelectedItem(), (String) jComboBoxIDProy.getSelectedItem());
+            JOptionPane.showMessageDialog(rootPane, "Se ha registrado exitosamente el caso", "Accion exitosa", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(rootPane, "La fecha que ha ingresado no es correcta", "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_buttonRegistrarActionPerformed
+
+    private void actualizarListas() {
+        ManejadorCaso mc = new ManejadorCaso(this.DB);
+        ManejadorProyecto mp = new ManejadorProyecto(this.DB);
+        listaIDProy.clear();
+        listaTipos.clear();
+        if (mp.getProyectoByIdAdmin(Integer.toString(this.usuario.getDPI())) != null) {
+            listaIDProy.addAll(mp.getProyectoByIdAdmin(Integer.toString(this.usuario.getDPI())));
+            for (Proyecto proyecto : listaIDProy) {
+                jComboBoxIDProy.addItem(Integer.toString(proyecto.getID()));
+            }
+        } else {
+            jComboBoxIDProy.addItem("");
+        }
+        if(mc.getTipoCaso() != null){
+            listaTipos.addAll(mc.getTipoCaso());
+            for (TipoCaso listaTipo : listaTipos) {
+                jComboBoxTipos.addItem(listaTipo.getNombre());
+            }
+        } else {
+            jComboBoxTipos.addItem("");
+        }
+
+    }
+
+    private void limpiarCampos() {
+        formattedTextFieldFechaIni.setText("");
+        formattedTextFieldFechaLim.setText("");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonRegistrar;
+    private javax.swing.JFormattedTextField formattedTextFieldFechaIni;
+    private javax.swing.JFormattedTextField formattedTextFieldFechaLim;
+    private javax.swing.JComboBox<String> jComboBoxIDProy;
+    private javax.swing.JComboBox<String> jComboBoxTipos;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,7 +34,7 @@ public class ManejadorFrontEndUsuario {
             if(!(usr.getPassword().equals(passwordUsuario))){
             throw new Exception("La contraseña es incorrecta");
             } else {
-            cbd = new CodeAndBugsDescktop(usr.getTipo(), usr.getUsuario(), DB);
+            cbd = new CodeAndBugsDescktop(usr, DB);
             cbd.setVisible(true);
             }
         } else {

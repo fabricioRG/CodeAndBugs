@@ -30,6 +30,11 @@ public class ManejadorProyecto {
         return DBMS.getProyecto(consulta, "", 0);
     }
 
+    public List getProyectoByIdAdmin(String dpi){
+        String consulta = "SELECT * FROM PROYECTO WHERE DPI_ADMINISTRADOR = ? AND ESTADO = ?";
+        return DBMS.getProyecto(consulta, dpi, 2);
+    }
+    
     public void setProyectoInDataBase(String nombrePry, String dpi) throws Exception {
         ManejadorUsuario mu = new ManejadorUsuario(this.DB);
         Usuario usr = (Usuario) mu.getUsuarioByDPI(dpi).get(0);

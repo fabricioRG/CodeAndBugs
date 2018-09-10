@@ -5,9 +5,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.LinkedList;
+import project.caso.backend.Caso;
 import project.caso.backend.TipoCaso;
+import project.etapa.backend.Etapa;
 import project.proyecto.backend.Proyecto;
 import project.usuario.Usuario;
 
@@ -20,10 +24,8 @@ public class ManejadorBaseDatos {
     private Connection connection = null;
     private Statement declaracion = null;
     private PreparedStatement sentencia = null;
-    private BaseDatos DB = null;
 
     public ManejadorBaseDatos(BaseDatos DB) {
-        this.DB = DB;
         connection = DB.getConection();
         declaracion = DB.getStatement();
     }
@@ -83,6 +85,9 @@ public class ManejadorBaseDatos {
             sentencia = connection.prepareStatement(consulta);
             if (opcion == 1) {
                 sentencia.setString(1, datoProyecto);
+            } else if (opcion == 2) {
+                sentencia.setString(1, datoProyecto);
+                sentencia.setInt(2, 1);
             }
             ResultSet resultado = sentencia.executeQuery();
             while (resultado.next()) {
@@ -117,13 +122,34 @@ public class ManejadorBaseDatos {
         }
     }
 
-    public List getTipoCaso(String consulta, String datoTipoCaso) {
+    public void updateProyecto(String update, Proyecto pry, int opcion) {
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(update);
+            if (opcion == 1) {
+                sentencia.setString(1, pry.getNombre());
+                sentencia.setInt(2, pry.getDPIAdministrador());
+                sentencia.setInt(3, pry.getID());
+            } else if (opcion == 2) {
+                sentencia.setByte(1, pry.getEstado());
+                sentencia.setInt(2, pry.getID());
+            }
+            sentencia.executeUpdate();
+            sentencia.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List getTipoCaso(String consulta, String datoTipoCaso, int tipo) {
         List<TipoCaso> tipoCaso = new LinkedList<>();
         TipoCaso tpcs = null;
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(consulta);
-            sentencia.setString(1, datoTipoCaso);
+            if (tipo == 1) {
+                sentencia.setString(1, datoTipoCaso);
+            }
             ResultSet resultado = sentencia.executeQuery();
             while (resultado.next()) {
                 String nombre = resultado.getString("Nombre");
@@ -154,22 +180,103 @@ public class ManejadorBaseDatos {
         }
     }
 
-    public void updateProyecto(String update, Proyecto pry, int opcion) {
+    public void setCaso(String accion, Caso caso) {
+        SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            String fechaIni = fechaFormat.format(caso.getFechaInicio());
+            String fechaLim = fechaFormat.format(caso.getFechaLimite());
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(accion);
+            sentencia.setDate(1, Date.valueOf(fechaIni));
+            sentencia.setDate(2, Date.valueOf(fechaLim));
+            sentencia.setString(3, caso.getTipoCaso());
+            sentencia.setInt(4, caso.getIdProyecto());
+            sentencia.executeUpdate();
+            sentencia.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    public List getCaso(String consulta, String datoCaso, int opcion) {
+        List<Caso> listaCaso = new LinkedList<>();
+        Caso caso = null;
         try {
             declaracion = connection.createStatement();
-            sentencia = connection.prepareStatement(update);
-            if (opcion == 1) {
-                sentencia.setString(1, pry.getNombre());
-                sentencia.setInt(2, pry.getDPIAdministrador());
-                sentencia.setInt(3, pry.getID());
+            sentencia = connection.prepareStatement(consulta);
+            if(opcion ==1){
+                sentencia.setInt(1, Integer.parseInt(datoCaso));
+                sentencia.setInt(2, 1);
+            } else if (opcion == 2){
+                sentencia.setString(1, datoCaso);
+            }
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                int ID = resultado.getInt("ID");
+                Date fechaInicio = resultado.getDate("Fecha_Inicio");
+                Date fechaLimite = resultado.getDate("Fecha_Limite");
+                Date fechaEntrega = resultado.getDate("Fecha_Entrega");
+                double avance = resultado.getDouble("Avance");
+                String motivoCancelacion = resultado.getString("Motivo_Cancelacion");
+                String tipo = resultado.getString("Tipo");
+                int idProyecto = resultado.getInt("ID_Proyecto");
+                caso = new Caso(ID, fechaInicio, fechaLimite, fechaEntrega, avance, motivoCancelacion, tipo, idProyecto);
+                listaCaso.add(caso);
+            }
+            if(listaCaso.isEmpty()){
+                listaCaso = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listaCaso;
+    }
+
+    public List getEtapa(String consulta, Etapa etapa, int opcion){
+        List<Etapa> listaEtapa = new LinkedList<>();
+        Etapa etp = null;
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(consulta);
+            if(opcion == 1){
+                sentencia.setInt(1, etapa.getNumeroPaso());
+                sentencia.setInt(2, etapa.getIdCaso());
             } else if(opcion == 2){
-                sentencia.setByte(1, pry.getEstado());
-                sentencia.setInt(2, pry.getID());
+                sentencia.setInt(1, etapa.getDpiDesarrollador());
+            }
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {                
+                int noPaso = resultado.getInt("No_Paso");
+                int idCaso = resultado.getInt("ID_CASO");
+                String comentario = resultado.getString("Comentario");
+                double horasTrabajadas = resultado.getDouble("Horas_Trabajadas");
+                byte aprobacion = resultado.getByte("Aprobacion");
+                int dpiDesarrollador = resultado.getInt("DPI_Desarrollador");
+                etp = new Etapa(noPaso, idCaso, comentario, horasTrabajadas, aprobacion, dpiDesarrollador);
+                listaEtapa.add(etp);
+            }
+            if(listaEtapa.isEmpty()){
+                listaEtapa = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listaEtapa;
+    }
+    
+    public void setEtapa(String accion, Etapa etapa, int opcion){
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(accion);
+            if(opcion == 1){
+                sentencia.setInt(1, etapa.getNumeroPaso());
+                sentencia.setInt(2, etapa.getIdCaso());
             }
             sentencia.executeUpdate();
             sentencia.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(System.out);
         }
     }
+    
 }

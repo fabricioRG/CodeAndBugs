@@ -31,6 +31,11 @@ public class ManejadorUsuario {
         return this.DBMS.getUsuario(DPIUsuario, consulta, 1);
     }
 
+    public List getUsuarioByTipo(String tipoUsuario){
+        String consulta = "SELECT * FROM USUARIO WHERE TIPO = ?";
+        return this.DBMS.getUsuario(tipoUsuario, consulta, 1);
+    }
+    
     //
     public void setUsuarioInDatabase(String dpi, String name, String lastName, String user, String pass, String type) throws Exception{
         if (name.isEmpty()){

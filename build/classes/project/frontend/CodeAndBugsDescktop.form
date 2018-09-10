@@ -44,6 +44,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemTipoCasoActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemModProy">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Modificar Proyecto"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemModProyActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuAdminProy">
@@ -57,10 +65,26 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemRegCaso">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar caso"/>
+                <Property name="text" type="java.lang.String" value="Registrar Caso"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemRegCasoActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemRegEtapa">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Registrar Etapa"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemRegEtapaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAsigDesarr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Asignar Desarrollador"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAsigDesarrActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -172,7 +196,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                  <Component id="labelInformacion" min="-2" pref="324" max="-2" attributes="0"/>
+                  <Component id="labelInformacion" min="-2" pref="590" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
