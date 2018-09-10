@@ -12,9 +12,11 @@ import java.text.ParseException;
 import javax.swing.JOptionPane;
 import project.backend.ManejadorDesktop;
 import project.caso.frontend.CreadorTipoCaso;
+import project.caso.frontend.ModificadorCaso;
 import project.caso.frontend.RegistradorCaso;
 import project.etapa.backend.AsignadorDesarrEtapa;
 import project.etapa.frontend.RegistradorEtapa;
+import project.etapa.frontend.RegistradorTrabajoEtapa;
 import project.proyecto.frontend.CreadorProyecto;
 import project.proyecto.frontend.ModificadorProyecto;
 import project.usuario.Usuario;
@@ -61,10 +63,11 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenuItemModProy = new javax.swing.JMenuItem();
         jMenuAdminProy = new javax.swing.JMenu();
         jMenuItemRegCaso = new javax.swing.JMenuItem();
+        jMenuItemModCaso = new javax.swing.JMenuItem();
         jMenuItemRegEtapa = new javax.swing.JMenuItem();
         jMenuItemAsigDesarr = new javax.swing.JMenuItem();
         jMenuDesarr = new javax.swing.JMenu();
-        jMenuItemModificarProyecto = new javax.swing.JMenuItem();
+        jMenuItemEntregarTrab = new javax.swing.JMenuItem();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemCambiarUsuario = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
@@ -148,6 +151,14 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         });
         jMenuAdminProy.add(jMenuItemRegCaso);
 
+        jMenuItemModCaso.setText("Modificar Caso");
+        jMenuItemModCaso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemModCasoActionPerformed(evt);
+            }
+        });
+        jMenuAdminProy.add(jMenuItemModCaso);
+
         jMenuItemRegEtapa.setText("Registrar Etapa");
         jMenuItemRegEtapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,13 +181,13 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenuDesarr.setText("Desarrollador");
         jMenuDesarr.setEnabled(false);
 
-        jMenuItemModificarProyecto.setText("Modificar Proyecto");
-        jMenuItemModificarProyecto.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemEntregarTrab.setText("Entregar Trabajo");
+        jMenuItemEntregarTrab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemModificarProyectoActionPerformed(evt);
+                jMenuItemEntregarTrabActionPerformed(evt);
             }
         });
-        jMenuDesarr.add(jMenuItemModificarProyecto);
+        jMenuDesarr.add(jMenuItemEntregarTrab);
 
         menuBar.add(jMenuDesarr);
 
@@ -259,14 +270,14 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         ctc.show();
     }//GEN-LAST:event_jMenuItemTipoCasoActionPerformed
 
-    private void jMenuItemModificarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModificarProyectoActionPerformed
-        ModificadorProyecto mp = new ModificadorProyecto(this.DB);
-        PrincipalDesktop.add(mp);
+    private void jMenuItemEntregarTrabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEntregarTrabActionPerformed
+        RegistradorTrabajoEtapa rte = new RegistradorTrabajoEtapa(DB, usuario);
+        PrincipalDesktop.add(rte);
         Dimension desktopSize = PrincipalDesktop.getSize();
-        Dimension FrameSize = mp.getSize();
-        mp.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
-        mp.show();
-    }//GEN-LAST:event_jMenuItemModificarProyectoActionPerformed
+        Dimension FrameSize = rte.getSize();
+        rte.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        rte.show();
+    }//GEN-LAST:event_jMenuItemEntregarTrabActionPerformed
 
     private void jMenuItemRegCasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRegCasoActionPerformed
         RegistradorCaso rc = new RegistradorCaso(this.DB, this.usuario);
@@ -304,6 +315,15 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         ade.show();
     }//GEN-LAST:event_jMenuItemAsigDesarrActionPerformed
 
+    private void jMenuItemModCasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemModCasoActionPerformed
+        ModificadorCaso mc = new ModificadorCaso(this.DB, this.usuario);
+        PrincipalDesktop.add(mc);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = mc.getSize();
+        mc.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        mc.show();
+    }//GEN-LAST:event_jMenuItemModCasoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -319,6 +339,10 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
             color = new Color(70, 130, 180);
             tipoUsuario = "Administrador de Proyecto";
             jMenuAdminProy.setEnabled(true);
+        } else {
+            color = new Color(30, 144, 255);
+            tipoUsuario = "Desarrollador";
+            jMenuDesarr.setEnabled(true);
         }
         menuBar.setBackground(color);
         labelInformacion.setText(usuario.getNombre() + " " + usuario.getApellido() + " / " + tipoUsuario);
@@ -333,8 +357,9 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCambiarUsuario;
     private javax.swing.JMenuItem jMenuItemCrearProyecto;
     private javax.swing.JMenuItem jMenuItemCrearUsuario;
+    private javax.swing.JMenuItem jMenuItemEntregarTrab;
+    private javax.swing.JMenuItem jMenuItemModCaso;
     private javax.swing.JMenuItem jMenuItemModProy;
-    private javax.swing.JMenuItem jMenuItemModificarProyecto;
     private javax.swing.JMenuItem jMenuItemRegCaso;
     private javax.swing.JMenuItem jMenuItemRegEtapa;
     private javax.swing.JMenuItem jMenuItemSalir;

@@ -78,13 +78,35 @@ public class ManejadorCaso {
     }
     
     public List getCasoByStatusAndDpiAdmin(Usuario usr){
-        String consulta = "SELECT CASO.* FROM PROYECTO, CASO WHERE PROYECTO.DPI_ADMINISTRADOR = ? AND PROYECTO.ID = CASO.ID_PROYECTO AND PROYECTO.ESTADO = ?";
+        String consulta = "SELECT CASO.* FROM PROYECTO, CASO WHERE PROYECTO.DPI_ADMINISTRADOR = ? AND PROYECTO.ID = CASO.ID_PROYECTO AND PROYECTO.ESTADO = '1' "
+                + "AND CASO.MOTIVO_CANCELACION IS NULL";
         return DBMS.getCaso(consulta, Integer.toString(usr.getDPI()), 1);
     }
     
     public List getCasoById(String id){
         String consulta = "SELECT * FROM CASO WHERE ID = ?";
         return DBMS.getCaso(consulta, id, 1);
+    }
+    
+    public void updateDateCaso(Caso cas, String nuevaFecha) throws Exception{
+        if(nuevaFecha.replaceAll("-", "").replaceAll(" ", "").isEmpty()){
+            throw new Exception("\"Fecha Limite\" vacia, intentelo de nuevo");
+        }
+        String update = "UPDATE CASO SET FECHA_LIMITE = ? WHERE ID = ?";
+        Date fechaLimite = fechaFormat.parse(nuevaFecha);
+        Caso caso = new Caso(cas.getID(), cas.getFechaInicio(), fechaLimite, null, 0, null, cas.getTipoCaso(), cas.getIdProyecto());
+        DBMS.updateCaso(update, caso, 1);
+    }
+    
+    public void cancelCaso(Caso cas, String motivoCancel) throws Exception{
+        if(motivoCancel.isEmpty()){
+            throw new Exception("\"Motivo de Cancelacion\" vacio, intentelo de nuevo");
+        } else if(motivoCancel.length() > 100){
+            throw new Exception("Se ha superado la cantidad maxima de caracteres validos, intentelo de nuevo");
+        }
+        Caso caso = new Caso(cas.getID(), cas.getFechaInicio(), cas.getFechaLimite(), null, 0, motivoCancel, cas.getTipoCaso(), cas.getIdProyecto());
+        String update = "UPDATE CASO SET MOTIVO_CANCELACION = ? WHERE ID = ?";
+        DBMS.updateCaso(update, caso, 2);
     }
     
 }

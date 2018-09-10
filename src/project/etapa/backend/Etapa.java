@@ -12,14 +12,16 @@ public class Etapa {
     private double horasTrabajadas;
     private byte aprobacion;
     private int dpiDesarrollador;
+    private double costo;
 
-    public Etapa(int numeroPaso, int IdCaso, String Comentario, double horasTrabajadas, byte aprobacion, int dpiDesarrollador) {
+    public Etapa(int numeroPaso, int IdCaso, String Comentario, double horasTrabajadas, byte aprobacion, int dpiDesarrollador, double costo) {
         this.numeroPaso = numeroPaso;
         this.IdCaso = IdCaso;
         this.Comentario = Comentario;
         this.horasTrabajadas = horasTrabajadas;
         this.aprobacion = aprobacion;
         this.dpiDesarrollador = dpiDesarrollador;
+        this.costo = costo;
     }
 
     public int getNumeroPaso() {
@@ -68,6 +70,14 @@ public class Etapa {
 
     public void setDpiDesarrollador(int dpiDesarrollador) {
         this.dpiDesarrollador = dpiDesarrollador;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
     }
     
 }

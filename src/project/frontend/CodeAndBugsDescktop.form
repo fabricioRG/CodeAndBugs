@@ -71,6 +71,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemRegCasoActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemModCaso">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Modificar Caso"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemModCasoActionPerformed"/>
+              </Events>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemRegEtapa">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Registrar Etapa"/>
@@ -98,12 +106,12 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemModificarProyecto">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemEntregarTrab">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Modificar Proyecto"/>
+                <Property name="text" type="java.lang.String" value="Entregar Trabajo"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemModificarProyectoActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemEntregarTrabActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>

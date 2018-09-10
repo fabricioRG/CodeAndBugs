@@ -8,6 +8,8 @@ package project.etapa.backend;
 import codeandbugs01.BaseDatos;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
 import project.usuario.ManejadorUsuario;
 import project.usuario.Usuario;
 import org.jdesktop.observablecollections.ObservableCollections;
@@ -32,6 +34,7 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
         this.listaEtapas = new LinkedList<>();
         this.listaEtapasObs = ObservableCollections.observableList(listaEtapas);
         this.usuario = usr;
+        this.etapaSelecc = new Etapa(0, 0, null, 0, new Byte("0"), 0,0);
         initComponents();
         actualizarListas();
         buttonAsignar.setEnabled(false);
@@ -55,6 +58,8 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
         buttonAsignar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        formattedTextFieldCosto = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(255, 99, 71));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -89,15 +94,21 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
         org.jdesktop.beansbinding.ELProperty eLProperty = org.jdesktop.beansbinding.ELProperty.create("${listaEtapasObs}");
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, eLProperty, jTable1);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroPaso}"));
-        columnBinding.setColumnName("Numero de Paso");
+        columnBinding.setColumnName("Numero Paso");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${idCaso}"));
-        columnBinding.setColumnName("ID de Caso");
+        columnBinding.setColumnName("Id Caso");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${dpiDesarrollador}"));
+        columnBinding.setColumnName("Dpi Desarrollador");
         columnBinding.setColumnClass(Integer.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${etapaSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
         jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable1MouseClicked(evt);
@@ -105,31 +116,43 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel6.setForeground(new java.awt.Color(254, 254, 254));
+        jLabel6.setText("Costo por hora*:");
+
+        formattedTextFieldCosto.setBackground(new java.awt.Color(254, 254, 254));
+        formattedTextFieldCosto.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        formattedTextFieldCosto.setForeground(new java.awt.Color(237, 71, 71));
+        formattedTextFieldCosto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.00"))));
+        formattedTextFieldCosto.setCaretColor(new java.awt.Color(237, 71, 71));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(buttonAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxDPIDesarr, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(48, 48, 48)))
-                .addGap(0, 0, 0))
+                .addContainerGap()
+                .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addComponent(jLabel1)
-                .addGap(0, 0, 0))
+                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(108, 108, 108)
+                        .addComponent(buttonAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jComboBoxDPIDesarr, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(formattedTextFieldCosto, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,14 +161,17 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxDPIDesarr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(buttonAsignar))
-                .addGap(32, 32, 32)
+                    .addComponent(jComboBoxDPIDesarr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(formattedTextFieldCosto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(28, 28, 28)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(buttonAsignar)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -167,13 +193,20 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsignarActionPerformed
-        buttonAsignar.setEnabled(false);
+        ManejadorEtapa me = new ManejadorEtapa(this.DB);
+        try {
+            me.updateEtapaDesarrollador(etapaSelecc, (String) jComboBoxDPIDesarr.getSelectedItem(), formattedTextFieldCosto.getText().trim());
+            JOptionPane.showMessageDialog(rootPane, "Se ha asignado exitosamente al desarrollador en la etapa y numero de caso indicado", "Accion exitosa", JOptionPane.INFORMATION_MESSAGE);
+            actualizarListas();
+            buttonAsignar.setEnabled(false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_buttonAsignarActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         buttonAsignar.setEnabled(true);
     }//GEN-LAST:event_jTable1MouseClicked
-
 
     private void actualizarListas(){
         ManejadorUsuario mu = new ManejadorUsuario(this.DB);
@@ -182,6 +215,7 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
         listaEtapasObs.clear();
         if(mu.getUsuarioByTipo("3") != null){
             listaUsuarios.addAll(mu.getUsuarioByTipo("3"));
+            jComboBoxDPIDesarr.removeAllItems();
             for (Usuario usuario : listaUsuarios) {
                 jComboBoxDPIDesarr.addItem(Integer.toString(usuario.getDPI()));
             }
@@ -201,12 +235,22 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
     public void setListaEtapasObs(ObservableList<Etapa> listaEtapasObs) {
         this.listaEtapasObs = listaEtapasObs;
     }
+
+    public Etapa getEtapaSelecc() {
+        return etapaSelecc;
+    }
+
+    public void setEtapaSelecc(Etapa etapaSelecc) {
+        this.etapaSelecc = etapaSelecc;
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAsignar;
+    private javax.swing.JFormattedTextField formattedTextFieldCosto;
     private javax.swing.JComboBox<String> jComboBoxDPIDesarr;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;

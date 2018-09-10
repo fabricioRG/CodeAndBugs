@@ -206,7 +206,6 @@ public class ManejadorBaseDatos {
             sentencia = connection.prepareStatement(consulta);
             if(opcion ==1){
                 sentencia.setInt(1, Integer.parseInt(datoCaso));
-                sentencia.setInt(2, 1);
             } else if (opcion == 2){
                 sentencia.setString(1, datoCaso);
             }
@@ -231,6 +230,26 @@ public class ManejadorBaseDatos {
         }
         return listaCaso;
     }
+    
+    public void updateCaso(String update, Caso caso, int opcion){
+        SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaLim = fechaFormat.format(caso.getFechaLimite());
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(update);
+            if(opcion == 1){
+                sentencia.setDate(1, Date.valueOf(fechaLim));
+                sentencia.setInt(2, caso.getID());
+            } else if (opcion == 2){
+                sentencia.setString(1, caso.getMotivoCancelacion());
+                sentencia.setInt(2, caso.getID());
+            } 
+            sentencia.executeUpdate();
+            sentencia.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
 
     public List getEtapa(String consulta, Etapa etapa, int opcion){
         List<Etapa> listaEtapa = new LinkedList<>();
@@ -252,7 +271,8 @@ public class ManejadorBaseDatos {
                 double horasTrabajadas = resultado.getDouble("Horas_Trabajadas");
                 byte aprobacion = resultado.getByte("Aprobacion");
                 int dpiDesarrollador = resultado.getInt("DPI_Desarrollador");
-                etp = new Etapa(noPaso, idCaso, comentario, horasTrabajadas, aprobacion, dpiDesarrollador);
+                double costo = resultado.getDouble("Costo");
+                etp = new Etapa(noPaso, idCaso, comentario, horasTrabajadas, aprobacion, dpiDesarrollador, costo);
                 listaEtapa.add(etp);
             }
             if(listaEtapa.isEmpty()){
@@ -271,6 +291,23 @@ public class ManejadorBaseDatos {
             if(opcion == 1){
                 sentencia.setInt(1, etapa.getNumeroPaso());
                 sentencia.setInt(2, etapa.getIdCaso());
+            }
+            sentencia.executeUpdate();
+            sentencia.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+    
+    public void updateEtapa(String update, Etapa etapa, int opcion){
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(update);
+            if(opcion ==1){
+                sentencia.setInt(1, etapa.getDpiDesarrollador());
+                sentencia.setDouble(2, etapa.getCosto());
+                sentencia.setInt(3, etapa.getNumeroPaso());
+                sentencia.setInt(4, etapa.getIdCaso());
             }
             sentencia.executeUpdate();
             sentencia.close();
