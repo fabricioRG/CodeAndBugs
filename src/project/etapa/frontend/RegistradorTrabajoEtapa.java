@@ -8,6 +8,7 @@ package project.etapa.frontend;
 import codeandbugs01.BaseDatos;
 import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.observablecollections.ObservableList;
 import project.etapa.backend.Etapa;
@@ -34,6 +35,7 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
         this.usuario = usuario;
         initComponents();
         actualizarLista();
+        buttonEntregar.setEnabled(false);
     }
 
     /**
@@ -51,11 +53,11 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        textFieldNombre = new javax.swing.JTextField();
+        textFieldComentario = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        buttonModificar = new javax.swing.JButton();
+        buttonEntregar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        formattedTextFieldFechaLim = new javax.swing.JFormattedTextField();
+        formattedTextFieldHoras = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(30, 144, 255));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -90,26 +92,33 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
         columnBinding.setColumnClass(Double.class);
         columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
-        jTableBinding.bind();
+        jTableBinding.bind();org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, this, org.jdesktop.beansbinding.ELProperty.create("${etapaSelecc}"), jTable1, org.jdesktop.beansbinding.BeanProperty.create("selectedElement"));
+        bindingGroup.addBinding(binding);
+
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
-        textFieldNombre.setBackground(new java.awt.Color(192, 192, 192));
-        textFieldNombre.setForeground(new java.awt.Color(254, 254, 254));
-        textFieldNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
-        textFieldNombre.setCaretColor(new java.awt.Color(254, 254, 254));
-        textFieldNombre.setMargin(new java.awt.Insets(5, 5, 5, 5));
+        textFieldComentario.setBackground(new java.awt.Color(192, 192, 192));
+        textFieldComentario.setForeground(new java.awt.Color(254, 254, 254));
+        textFieldComentario.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        textFieldComentario.setCaretColor(new java.awt.Color(254, 254, 254));
+        textFieldComentario.setMargin(new java.awt.Insets(5, 5, 5, 5));
 
         jLabel5.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(105, 105, 105));
         jLabel5.setText("COMENTARIO:");
 
-        buttonModificar.setBackground(new java.awt.Color(30, 144, 255));
-        buttonModificar.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        buttonModificar.setForeground(new java.awt.Color(254, 254, 254));
-        buttonModificar.setText("ENTREGAR");
-        buttonModificar.addActionListener(new java.awt.event.ActionListener() {
+        buttonEntregar.setBackground(new java.awt.Color(30, 144, 255));
+        buttonEntregar.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        buttonEntregar.setForeground(new java.awt.Color(254, 254, 254));
+        buttonEntregar.setText("ENTREGAR");
+        buttonEntregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonModificarActionPerformed(evt);
+                buttonEntregarActionPerformed(evt);
             }
         });
 
@@ -117,11 +126,11 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
         jLabel6.setForeground(new java.awt.Color(105, 105, 105));
         jLabel6.setText("HORAS:");
 
-        formattedTextFieldFechaLim.setBackground(new java.awt.Color(192, 192, 192));
-        formattedTextFieldFechaLim.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
-        formattedTextFieldFechaLim.setForeground(new java.awt.Color(254, 254, 254));
-        formattedTextFieldFechaLim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.00"))));
-        formattedTextFieldFechaLim.setCaretColor(new java.awt.Color(254, 254, 254));
+        formattedTextFieldHoras.setBackground(new java.awt.Color(192, 192, 192));
+        formattedTextFieldHoras.setBorder(javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7));
+        formattedTextFieldHoras.setForeground(new java.awt.Color(254, 254, 254));
+        formattedTextFieldHoras.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.00"))));
+        formattedTextFieldHoras.setCaretColor(new java.awt.Color(254, 254, 254));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -146,14 +155,14 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel5)
-                                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(textFieldComentario, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(32, 32, 32)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(formattedTextFieldFechaLim, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(formattedTextFieldHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(175, 175, 175)
-                        .addComponent(buttonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(buttonEntregar, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 51, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -168,15 +177,15 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textFieldComentario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(formattedTextFieldFechaLim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(formattedTextFieldHoras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(buttonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonEntregar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
 
@@ -196,9 +205,21 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
-        
-    }//GEN-LAST:event_buttonModificarActionPerformed
+    private void buttonEntregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEntregarActionPerformed
+        ManejadorEtapa me = new ManejadorEtapa(DB);
+        try {
+            me.entregarEtapa(etapaSelecc, textFieldComentario.getText().trim(), formattedTextFieldHoras.getText());
+            JOptionPane.showMessageDialog(rootPane, "Se ha entregado exitosamente el Trabajo", "Accion exitosa", JOptionPane.INFORMATION_MESSAGE);
+            actualizarLista();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error de validacion", JOptionPane.ERROR_MESSAGE);
+        }
+        buttonEntregar.setEnabled(false);
+    }//GEN-LAST:event_buttonEntregarActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        buttonEntregar.setEnabled(true);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     public ObservableList<Etapa> getListaEtapasObs() {
         return listaEtapasObs;
@@ -219,14 +240,17 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
     private void actualizarLista(){
         ManejadorEtapa me = new ManejadorEtapa(this.DB);
         listaEtapasObs.clear();
-        if (me.getEtapaByDpiDesarr(this.usuario) != null){
-            listaEtapasObs.addAll(me.getEtapaByDpiDesarr(this.usuario));
+        if (me.getEtapaByDpiDesarrAproNull(this.usuario) != null){
+            listaEtapasObs.addAll(me.getEtapaByDpiDesarrAproNull(this.usuario));
         } 
+        if (me.getEtapaByDpiDesarrAproZero(usuario) != null){
+            listaEtapasObs.addAll(me.getEtapaByDpiDesarrAproZero(usuario));
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonModificar;
-    private javax.swing.JFormattedTextField formattedTextFieldFechaLim;
+    private javax.swing.JButton buttonEntregar;
+    private javax.swing.JFormattedTextField formattedTextFieldHoras;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -234,7 +258,7 @@ public class RegistradorTrabajoEtapa extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField textFieldNombre;
+    private javax.swing.JTextField textFieldComentario;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

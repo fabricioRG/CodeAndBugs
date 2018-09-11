@@ -3,9 +3,10 @@ package project.caso.backend;
 import codeandbugs01.BaseDatos;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import project.baseDatos.ManejadorBaseDatos;
+import project.etapa.backend.Etapa;
+import project.etapa.backend.ManejadorEtapa;
 import project.usuario.Usuario;
 
 /**
@@ -38,6 +39,27 @@ public class ManejadorCaso {
         String consulta = "SELECT TIPO_CASO.* FROM TIPO_CASO, CASO WHERE CASO.ID = ? AND CASO.TIPO = TIPO_CASO.NOMBRE;";
         TipoCaso Tipocaso = (TipoCaso) DBMS.getTipoCaso(consulta, idCaso, 1).get(0);
         return Tipocaso;
+    }
+    
+    public List getCasoByStatusAndDpiAdmin(Usuario usr){
+        String consulta = "SELECT CASO.* FROM PROYECTO, CASO WHERE PROYECTO.DPI_ADMINISTRADOR = ? AND PROYECTO.ID = CASO.ID_PROYECTO AND PROYECTO.ESTADO = '1' "
+                + "AND CASO.MOTIVO_CANCELACION IS NULL";
+        return DBMS.getCaso(consulta, Integer.toString(usr.getDPI()), 1);
+    }
+    
+    public List getCasoById(String id){
+        String consulta = "SELECT * FROM CASO WHERE ID = ?";
+        return DBMS.getCaso(consulta, id, 1);
+    }
+    
+    public List getCasoByProject(String idProject){
+        String consulta = "SELECT CASO.* FROM CASO, PROYECTO WHERE PROYECTO.ID = ? AND PROYECTO.ID = CASO.ID_PROYECTO";
+        return DBMS.getCaso(consulta, idProject, 1);
+    }
+    
+    public List getCasoByDpiDesar(Usuario usuario){
+        String consulta = "SELECT CASO.* FROM CASO, ETAPA WHERE ETAPA.DPI_DESARROLLADOR = ? AND ETAPA.ID_CASO = CASO.ID";
+        return DBMS.getCaso(consulta, Integer.toString(usuario.getDPI()), 1);
     }
     
     public void setTipoCasoInDataBase(String nombre, String noPasos) throws Exception {
@@ -77,18 +99,7 @@ public class ManejadorCaso {
         DBMS.setCaso(accion, caso);
     }
     
-    public List getCasoByStatusAndDpiAdmin(Usuario usr){
-        String consulta = "SELECT CASO.* FROM PROYECTO, CASO WHERE PROYECTO.DPI_ADMINISTRADOR = ? AND PROYECTO.ID = CASO.ID_PROYECTO AND PROYECTO.ESTADO = '1' "
-                + "AND CASO.MOTIVO_CANCELACION IS NULL";
-        return DBMS.getCaso(consulta, Integer.toString(usr.getDPI()), 1);
-    }
-    
-    public List getCasoById(String id){
-        String consulta = "SELECT * FROM CASO WHERE ID = ?";
-        return DBMS.getCaso(consulta, id, 1);
-    }
-    
-    public void updateDateCaso(Caso cas, String nuevaFecha) throws Exception{
+    public void updateCasoDate(Caso cas, String nuevaFecha) throws Exception{
         if(nuevaFecha.replaceAll("-", "").replaceAll(" ", "").isEmpty()){
             throw new Exception("\"Fecha Limite\" vacia, intentelo de nuevo");
         }
@@ -109,4 +120,28 @@ public class ManejadorCaso {
         DBMS.updateCaso(update, caso, 2);
     }
     
+    public void updateCasoDateAvance(Etapa etapa, String fecha) throws Exception{
+        Caso caso = (Caso) getCasoById(Integer.toString(etapa.getIdCaso())).get(0);
+        TipoCaso tc = (TipoCaso) getTipoCasoByNombre(caso.getTipoCaso()).get(0);
+        String update = "";
+        double numeroPasos = tc.getNumeroPasos();
+        double numeroPaso = etapa.getNumeroPaso();
+        double avance = 100 * (numeroPaso / numeroPasos);
+        int opcion = 0;
+        if(etapa.getNumeroPaso() == tc.getNumeroPasos()){
+            if(fecha.replaceAll("-", "").replaceAll(" ", "").isEmpty()){
+                update = "UPDATE CASO SET FECHA_ENTREGA = CURDATE(), AVANCE = ? WHERE ID = ?";
+                opcion = 3;
+            } else {
+                update = "UPDATE CASO SET FECHA_ENTREGA = ?, AVANCE = ? WHERE ID = ?";
+                opcion = 4;
+                caso.setFechaEntrega(fechaFormat.parse(fecha));
+            }
+        } else {
+            update = "UPDATE CASO SET AVANCE = ? WHERE ID = ?";
+            opcion = 3;
+        }
+        caso.setAvance(avance);
+        DBMS.updateCaso(update, caso, opcion);
+    }
 }

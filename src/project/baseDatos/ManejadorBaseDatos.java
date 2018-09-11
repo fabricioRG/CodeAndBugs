@@ -243,7 +243,15 @@ public class ManejadorBaseDatos {
             } else if (opcion == 2){
                 sentencia.setString(1, caso.getMotivoCancelacion());
                 sentencia.setInt(2, caso.getID());
-            } 
+            } else if(opcion == 3){
+                sentencia.setDouble(1, caso.getAvance());
+                sentencia.setInt(2, caso.getID());
+            } else if(opcion == 4){
+                String fecha = fechaFormat.format(caso.getFechaEntrega());
+                sentencia.setDate(1, Date.valueOf(fecha));
+                sentencia.setDouble(2, caso.getAvance());
+                sentencia.setInt(3, caso.getID());
+            }
             sentencia.executeUpdate();
             sentencia.close();
         } catch (Exception e) {
@@ -308,6 +316,14 @@ public class ManejadorBaseDatos {
                 sentencia.setDouble(2, etapa.getCosto());
                 sentencia.setInt(3, etapa.getNumeroPaso());
                 sentencia.setInt(4, etapa.getIdCaso());
+            } else if(opcion ==2){
+                sentencia.setString(1, etapa.getComentario());
+                sentencia.setDouble(2, etapa.getHorasTrabajadas());
+                sentencia.setInt(3, etapa.getNumeroPaso());
+                sentencia.setInt(4, etapa.getIdCaso());
+            } else if(opcion == 3){
+                sentencia.setInt(1, etapa.getNumeroPaso());
+                sentencia.setInt(2, etapa.getIdCaso());
             }
             sentencia.executeUpdate();
             sentencia.close();

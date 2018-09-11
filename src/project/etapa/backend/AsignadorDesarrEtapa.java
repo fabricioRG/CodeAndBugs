@@ -195,7 +195,7 @@ public class AsignadorDesarrEtapa extends javax.swing.JInternalFrame {
     private void buttonAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsignarActionPerformed
         ManejadorEtapa me = new ManejadorEtapa(this.DB);
         try {
-            me.updateEtapaDesarrollador(etapaSelecc, (String) jComboBoxDPIDesarr.getSelectedItem(), formattedTextFieldCosto.getText().trim());
+            me.asignarDesarrollador(etapaSelecc, (String) jComboBoxDPIDesarr.getSelectedItem(), formattedTextFieldCosto.getText().trim());
             JOptionPane.showMessageDialog(rootPane, "Se ha asignado exitosamente al desarrollador en la etapa y numero de caso indicado", "Accion exitosa", JOptionPane.INFORMATION_MESSAGE);
             actualizarListas();
             buttonAsignar.setEnabled(false);

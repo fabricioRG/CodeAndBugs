@@ -30,9 +30,14 @@ public class ManejadorProyecto {
         return DBMS.getProyecto(consulta, "", 0);
     }
 
-    public List getProyectoByIdAdmin(String dpi){
+    public List getProyectoByDpiAdminAndStatus(String dpi){
         String consulta = "SELECT * FROM PROYECTO WHERE DPI_ADMINISTRADOR = ? AND ESTADO = ?";
         return DBMS.getProyecto(consulta, dpi, 2);
+    }
+    
+    public List getProyectoByDpiAdmin(String dpi){
+        String consulta = "SELECT * FROM PROYECTO WHERE DPI_ADMINISTRADOR = ?";
+        return DBMS.getProyecto(consulta, dpi, 1);
     }
     
     public void setProyectoInDataBase(String nombrePry, String dpi) throws Exception {

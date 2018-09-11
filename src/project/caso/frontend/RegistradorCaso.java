@@ -226,8 +226,8 @@ public class RegistradorCaso extends javax.swing.JInternalFrame {
         ManejadorProyecto mp = new ManejadorProyecto(this.DB);
         listaIDProy.clear();
         listaTipos.clear();
-        if (mp.getProyectoByIdAdmin(Integer.toString(this.usuario.getDPI())) != null) {
-            listaIDProy.addAll(mp.getProyectoByIdAdmin(Integer.toString(this.usuario.getDPI())));
+        if (mp.getProyectoByDpiAdminAndStatus(Integer.toString(this.usuario.getDPI())) != null) {
+            listaIDProy.addAll(mp.getProyectoByDpiAdminAndStatus(Integer.toString(this.usuario.getDPI())));
             for (Proyecto proyecto : listaIDProy) {
                 jComboBoxIDProy.addItem(Integer.toString(proyecto.getID()));
             }

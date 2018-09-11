@@ -15,10 +15,14 @@ import project.caso.frontend.CreadorTipoCaso;
 import project.caso.frontend.ModificadorCaso;
 import project.caso.frontend.RegistradorCaso;
 import project.etapa.backend.AsignadorDesarrEtapa;
+import project.etapa.frontend.AprobadorTrabajo;
 import project.etapa.frontend.RegistradorEtapa;
 import project.etapa.frontend.RegistradorTrabajoEtapa;
 import project.proyecto.frontend.CreadorProyecto;
 import project.proyecto.frontend.ModificadorProyecto;
+import project.reportes.adminproy.CasoAsignado;
+import project.reportes.adminproy.ProyectosAsginado;
+import project.reportes.desarrollador.CasosAsignados;
 import project.usuario.Usuario;
 import project.usuario.frontend.*;
 
@@ -52,6 +56,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         PrincipalDesktop = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         labelInformacion = new javax.swing.JLabel();
@@ -66,11 +71,18 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         jMenuItemModCaso = new javax.swing.JMenuItem();
         jMenuItemRegEtapa = new javax.swing.JMenuItem();
         jMenuItemAsigDesarr = new javax.swing.JMenuItem();
+        jMenuItemAprobTrab = new javax.swing.JMenuItem();
+        jMenuItemProyAsig = new javax.swing.JMenuItem();
+        jMenuItemCasoAsig = new javax.swing.JMenuItem();
         jMenuDesarr = new javax.swing.JMenu();
         jMenuItemEntregarTrab = new javax.swing.JMenuItem();
+        jMenuItemCasAsig = new javax.swing.JMenuItem();
         jMenuOpciones = new javax.swing.JMenu();
         jMenuItemCambiarUsuario = new javax.swing.JMenuItem();
         jMenuItemSalir = new javax.swing.JMenuItem();
+
+        jCheckBoxMenuItem1.setSelected(true);
+        jCheckBoxMenuItem1.setText("jCheckBoxMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Code 'n Bugs");
@@ -159,7 +171,7 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         });
         jMenuAdminProy.add(jMenuItemModCaso);
 
-        jMenuItemRegEtapa.setText("Registrar Etapa");
+        jMenuItemRegEtapa.setText("Registrar Etapas");
         jMenuItemRegEtapa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemRegEtapaActionPerformed(evt);
@@ -175,6 +187,30 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         });
         jMenuAdminProy.add(jMenuItemAsigDesarr);
 
+        jMenuItemAprobTrab.setText("Aprobar Trabajo");
+        jMenuItemAprobTrab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAprobTrabActionPerformed(evt);
+            }
+        });
+        jMenuAdminProy.add(jMenuItemAprobTrab);
+
+        jMenuItemProyAsig.setText("Proyectos Asignados");
+        jMenuItemProyAsig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemProyAsigActionPerformed(evt);
+            }
+        });
+        jMenuAdminProy.add(jMenuItemProyAsig);
+
+        jMenuItemCasoAsig.setText("Casos Asignados");
+        jMenuItemCasoAsig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCasoAsigActionPerformed(evt);
+            }
+        });
+        jMenuAdminProy.add(jMenuItemCasoAsig);
+
         menuBar.add(jMenuAdminProy);
 
         jMenuDesarr.setForeground(new java.awt.Color(254, 254, 254));
@@ -188,6 +224,14 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
             }
         });
         jMenuDesarr.add(jMenuItemEntregarTrab);
+
+        jMenuItemCasAsig.setText("Casos Asignados");
+        jMenuItemCasAsig.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCasAsigActionPerformed(evt);
+            }
+        });
+        jMenuDesarr.add(jMenuItemCasAsig);
 
         menuBar.add(jMenuDesarr);
 
@@ -324,6 +368,42 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
         mc.show();
     }//GEN-LAST:event_jMenuItemModCasoActionPerformed
 
+    private void jMenuItemAprobTrabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAprobTrabActionPerformed
+        AprobadorTrabajo at = new AprobadorTrabajo(DB, usuario);
+        PrincipalDesktop.add(at);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = at.getSize();
+        at.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        at.show();
+    }//GEN-LAST:event_jMenuItemAprobTrabActionPerformed
+
+    private void jMenuItemProyAsigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProyAsigActionPerformed
+        ProyectosAsginado pa = new ProyectosAsginado(DB, usuario);
+        PrincipalDesktop.add(pa);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = pa.getSize();
+        pa.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        pa.show();
+    }//GEN-LAST:event_jMenuItemProyAsigActionPerformed
+
+    private void jMenuItemCasoAsigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCasoAsigActionPerformed
+        CasoAsignado ca = new CasoAsignado(DB, usuario);
+        PrincipalDesktop.add(ca);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = ca.getSize();
+        ca.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        ca.show();
+    }//GEN-LAST:event_jMenuItemCasoAsigActionPerformed
+
+    private void jMenuItemCasAsigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCasAsigActionPerformed
+        CasosAsignados ca = new CasosAsignados(DB, usuario);
+        PrincipalDesktop.add(ca);
+        Dimension desktopSize = PrincipalDesktop.getSize();
+        Dimension FrameSize = ca.getSize();
+        ca.setLocation((desktopSize.width - FrameSize.width) / 2, 0);
+        ca.show();
+    }//GEN-LAST:event_jMenuItemCasAsigActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,16 +430,21 @@ public class CodeAndBugsDescktop extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane PrincipalDesktop;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenuAdminProy;
     private javax.swing.JMenu jMenuAdminSistema;
     private javax.swing.JMenu jMenuDesarr;
+    private javax.swing.JMenuItem jMenuItemAprobTrab;
     private javax.swing.JMenuItem jMenuItemAsigDesarr;
     private javax.swing.JMenuItem jMenuItemCambiarUsuario;
+    private javax.swing.JMenuItem jMenuItemCasAsig;
+    private javax.swing.JMenuItem jMenuItemCasoAsig;
     private javax.swing.JMenuItem jMenuItemCrearProyecto;
     private javax.swing.JMenuItem jMenuItemCrearUsuario;
     private javax.swing.JMenuItem jMenuItemEntregarTrab;
     private javax.swing.JMenuItem jMenuItemModCaso;
     private javax.swing.JMenuItem jMenuItemModProy;
+    private javax.swing.JMenuItem jMenuItemProyAsig;
     private javax.swing.JMenuItem jMenuItemRegCaso;
     private javax.swing.JMenuItem jMenuItemRegEtapa;
     private javax.swing.JMenuItem jMenuItemSalir;

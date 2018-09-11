@@ -201,7 +201,7 @@ public class ModificadorCaso extends javax.swing.JInternalFrame {
     private void buttonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonModificarActionPerformed
         ManejadorCaso mc = new ManejadorCaso(DB);
         try {
-            mc.updateDateCaso(casoSelecc, formattedTextFieldFechaLim.getText());
+            mc.updateCasoDate(casoSelecc, formattedTextFieldFechaLim.getText());
             JOptionPane.showMessageDialog(rootPane, "Se ha modificado exitosamente la fecha del Caso con ID \"" + casoSelecc.getID() + "\"", "Accion exitosa", JOptionPane.INFORMATION_MESSAGE);
             actualizarLista();
         } catch (Exception e) {
