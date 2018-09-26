@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.LinkedList;
 import project.caso.backend.Caso;
+import project.caso.backend.HorasDinero;
 import project.caso.backend.TipoCaso;
 import project.etapa.backend.Etapa;
 import project.proyecto.backend.Proyecto;
@@ -204,9 +205,9 @@ public class ManejadorBaseDatos {
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(consulta);
-            if(opcion ==1){
+            if (opcion == 1) {
                 sentencia.setInt(1, Integer.parseInt(datoCaso));
-            } else if (opcion == 2){
+            } else if (opcion == 2) {
                 sentencia.setString(1, datoCaso);
             }
             ResultSet resultado = sentencia.executeQuery();
@@ -222,7 +223,7 @@ public class ManejadorBaseDatos {
                 caso = new Caso(ID, fechaInicio, fechaLimite, fechaEntrega, avance, motivoCancelacion, tipo, idProyecto);
                 listaCaso.add(caso);
             }
-            if(listaCaso.isEmpty()){
+            if (listaCaso.isEmpty()) {
                 listaCaso = null;
             }
         } catch (Exception e) {
@@ -230,23 +231,23 @@ public class ManejadorBaseDatos {
         }
         return listaCaso;
     }
-    
-    public void updateCaso(String update, Caso caso, int opcion){
+
+    public void updateCaso(String update, Caso caso, int opcion) {
         SimpleDateFormat fechaFormat = new SimpleDateFormat("yyyy-MM-dd");
         String fechaLim = fechaFormat.format(caso.getFechaLimite());
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(update);
-            if(opcion == 1){
+            if (opcion == 1) {
                 sentencia.setDate(1, Date.valueOf(fechaLim));
                 sentencia.setInt(2, caso.getID());
-            } else if (opcion == 2){
+            } else if (opcion == 2) {
                 sentencia.setString(1, caso.getMotivoCancelacion());
                 sentencia.setInt(2, caso.getID());
-            } else if(opcion == 3){
+            } else if (opcion == 3) {
                 sentencia.setDouble(1, caso.getAvance());
                 sentencia.setInt(2, caso.getID());
-            } else if(opcion == 4){
+            } else if (opcion == 4) {
                 String fecha = fechaFormat.format(caso.getFechaEntrega());
                 sentencia.setDate(1, Date.valueOf(fecha));
                 sentencia.setDouble(2, caso.getAvance());
@@ -259,20 +260,20 @@ public class ManejadorBaseDatos {
         }
     }
 
-    public List getEtapa(String consulta, Etapa etapa, int opcion){
+    public List getEtapa(String consulta, Etapa etapa, int opcion) {
         List<Etapa> listaEtapa = new LinkedList<>();
         Etapa etp = null;
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(consulta);
-            if(opcion == 1){
+            if (opcion == 1) {
                 sentencia.setInt(1, etapa.getNumeroPaso());
                 sentencia.setInt(2, etapa.getIdCaso());
-            } else if(opcion == 2){
+            } else if (opcion == 2) {
                 sentencia.setInt(1, etapa.getDpiDesarrollador());
             }
             ResultSet resultado = sentencia.executeQuery();
-            while (resultado.next()) {                
+            while (resultado.next()) {
                 int noPaso = resultado.getInt("No_Paso");
                 int idCaso = resultado.getInt("ID_CASO");
                 String comentario = resultado.getString("Comentario");
@@ -283,7 +284,7 @@ public class ManejadorBaseDatos {
                 etp = new Etapa(noPaso, idCaso, comentario, horasTrabajadas, aprobacion, dpiDesarrollador, costo);
                 listaEtapa.add(etp);
             }
-            if(listaEtapa.isEmpty()){
+            if (listaEtapa.isEmpty()) {
                 listaEtapa = null;
             }
         } catch (Exception e) {
@@ -291,12 +292,12 @@ public class ManejadorBaseDatos {
         }
         return listaEtapa;
     }
-    
-    public void setEtapa(String accion, Etapa etapa, int opcion){
+
+    public void setEtapa(String accion, Etapa etapa, int opcion) {
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(accion);
-            if(opcion == 1){
+            if (opcion == 1) {
                 sentencia.setInt(1, etapa.getNumeroPaso());
                 sentencia.setInt(2, etapa.getIdCaso());
             }
@@ -306,22 +307,22 @@ public class ManejadorBaseDatos {
             e.printStackTrace(System.out);
         }
     }
-    
-    public void updateEtapa(String update, Etapa etapa, int opcion){
+
+    public void updateEtapa(String update, Etapa etapa, int opcion) {
         try {
             declaracion = connection.createStatement();
             sentencia = connection.prepareStatement(update);
-            if(opcion ==1){
+            if (opcion == 1) {
                 sentencia.setInt(1, etapa.getDpiDesarrollador());
                 sentencia.setDouble(2, etapa.getCosto());
                 sentencia.setInt(3, etapa.getNumeroPaso());
                 sentencia.setInt(4, etapa.getIdCaso());
-            } else if(opcion ==2){
+            } else if (opcion == 2) {
                 sentencia.setString(1, etapa.getComentario());
                 sentencia.setDouble(2, etapa.getHorasTrabajadas());
                 sentencia.setInt(3, etapa.getNumeroPaso());
                 sentencia.setInt(4, etapa.getIdCaso());
-            } else if(opcion == 3){
+            } else if (opcion == 3) {
                 sentencia.setInt(1, etapa.getNumeroPaso());
                 sentencia.setInt(2, etapa.getIdCaso());
             }
@@ -331,5 +332,46 @@ public class ManejadorBaseDatos {
             e.printStackTrace(System.out);
         }
     }
-    
+
+    public List getHorasDinero(String consulta, String dato, int opcion) {
+        List<HorasDinero> listaHorasDinero = new LinkedList<>();
+        HorasDinero horasDinero = null;
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(consulta);
+            if (opcion == 1) {
+                sentencia.setString(1, dato);
+            }
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                double horasTra = resultado.getDouble("Horas_Trabajadas");
+                double costo = resultado.getDouble("Costo");
+                horasDinero = new HorasDinero(horasTra, costo);
+                listaHorasDinero.add(horasDinero);
+            }
+            if (listaHorasDinero.isEmpty()) {
+                listaHorasDinero = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+        return listaHorasDinero;
+    }
+
+    public int getCasosFinal(String consulta, String dato) {
+        int result = 0;
+        try {
+            declaracion = connection.createStatement();
+            sentencia = connection.prepareStatement(consulta);
+            sentencia.setString(1, dato);
+            ResultSet resultado = sentencia.executeQuery();
+            while (resultado.next()) {
+                result = resultado.getInt("COUNT(*)");
+            }
+        } catch (Exception e) {
+
+        }
+        return result;
+    }
+
 }

@@ -1,8 +1,10 @@
 package project.proyecto.backend;
 
 import codeandbugs01.BaseDatos;
+import java.util.LinkedList;
 import java.util.List;
 import project.baseDatos.ManejadorBaseDatos;
+import project.caso.backend.ManejadorCaso;
 import project.usuario.ManejadorUsuario;
 import project.usuario.Usuario;
 
@@ -30,16 +32,21 @@ public class ManejadorProyecto {
         return DBMS.getProyecto(consulta, "", 0);
     }
 
-    public List getProyectoByDpiAdminAndStatus(String dpi){
+    public List getProyectoByDpiAdminAndStatus(String dpi) {
         String consulta = "SELECT * FROM PROYECTO WHERE DPI_ADMINISTRADOR = ? AND ESTADO = ?";
         return DBMS.getProyecto(consulta, dpi, 2);
     }
-    
-    public List getProyectoByDpiAdmin(String dpi){
+
+    public List getProyectoByDpiAdmin(String dpi) {
         String consulta = "SELECT * FROM PROYECTO WHERE DPI_ADMINISTRADOR = ?";
         return DBMS.getProyecto(consulta, dpi, 1);
     }
-    
+
+    public List getProyectoByStatus(int status) {
+        String consulta = "SELECT * FROM PROYECTO WHERE ESTADO = ?";
+        return DBMS.getProyecto(consulta, Integer.toString(status), 1);
+    }
+
     public void setProyectoInDataBase(String nombrePry, String dpi) throws Exception {
         ManejadorUsuario mu = new ManejadorUsuario(this.DB);
         Usuario usr = (Usuario) mu.getUsuarioByDPI(dpi).get(0);
@@ -79,10 +86,34 @@ public class ManejadorProyecto {
             }
         }
     }
-    
-    public void modifyStatusProyecto(Proyecto pry, String estado){
+
+    public void modifyStatusProyecto(Proyecto pry, String estado) {
         String accion = "UPDATE PROYECTO SET ESTADO = ? WHERE ID = ?";
         Proyecto pryFinal = new Proyecto(pry.getID(), pry.getNombre(), Byte.parseByte(estado), pry.getDPIAdministrador());
         DBMS.updateProyecto(accion, pryFinal, 2);
+    }
+
+    public void getProyectoByFinalizado() {
+        List<Proyecto> listaProy = new LinkedList<>();
+        ManejadorCaso mc = new ManejadorCaso(DB);
+        Proyecto proyecto = null;
+        int indiceMayor = 0;
+        if (getProyectos() != null) {
+            listaProy.addAll(getProyectos());
+            if (listaProy.size() == 1) {
+                proyecto = listaProy.get(0);
+            } else {
+                for (int i = 0; i < listaProy.size() - 1; i++) {
+//                    indiceMayor 
+//                        if (mc.getNumeroFinalizado(Integer.toString(listaProy.get(i).getID())) > mc.getNumeroFinalizado(Integer.toString(listaProy.get(i + 1).getID()))) {
+//                            
+//                        }
+                }
+            }
+        }
+    }
+
+    public void getProyectoByCancelado() {
+
     }
 }
